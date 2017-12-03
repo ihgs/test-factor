@@ -79,4 +79,20 @@ a|
 |
 |
 
-|=====
+|====
+
+
+== 基本ロジック
+
+
+1. search `[factor]`
+1. search `-{4,}`
+** search `^\*\s+([A-Za-z]+):\s+(\w+)$`
+*** search `^\s+([1-9]?[0-9]*)([\.-])\s+(.+)`
+1. search `-{4,}`
+1. search `[combination]`
+1. search `-{4,}`
+** parse csv
+*** search `^([A-Za-z]+):(.*)$`
+1. search `-{4,}`
+1. create table
