@@ -1,0 +1,8 @@
+{
+  "name": "factor-analysis",
+  "version": "0.1.0",
+  "description": "generate test items from factors",
+  "bin": "cli.js",
+  "author": "ihgs <hgs.dev@gmail.com>",
+  "license": "MIT"
+}
