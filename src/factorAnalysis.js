@@ -1,7 +1,6 @@
-class FactorAnalysis{
-    constructor(options = {}) {
-        console.log("run")
-    }
+class FactorAnalysis {
+  constructor(options = {}) {
+    console.log('run');
+  }
 }
-
 module.exports = FactorAnalysis;
