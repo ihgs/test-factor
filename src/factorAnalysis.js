@@ -1,6 +1,9 @@
+const fs = require('fs');
+
 class FactorAnalysis {
-  constructor(options = {}) {
-    console.log('run');
+  constructor(filepath, options = {}) {
+    var contents = fs.readFileSync(filepath);
+    console.log(contents.toString());
   }
 }
 module.exports = FactorAnalysis;

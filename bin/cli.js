@@ -21,5 +21,5 @@ if (!args[2] || !cmd.commands.some(c => c.name() === args[2])) {
 cmd.parse(args);
 
 function bundle(main, command) {
-  console.log(command.name());
+  fa = new FactorAnalysis(main);
 }
