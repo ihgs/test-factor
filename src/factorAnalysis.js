@@ -57,10 +57,12 @@ class Factors {
     if (matchFactor) {
       this.factor = new Factor(matchFactor[1], matchFactor[2]);
       this.factorlist.push(this.factor);
+      return;
     }
     const matchItem = line.match(/^\s+(\d+)([.-])\s+(.*)$/);
     if (matchItem) {
       this.factor.addItem(matchItem[1], matchItem[2], matchItem[3]);
+      return;
     }
   }
 
@@ -71,21 +73,136 @@ class Factors {
   }
 }
 
+class CombinationSeries {
+  constructor(factorKey) {
+    this.factorKey = factorKey;
+    this.factors = [];
+  }
+}
+
+const C_STATE = {
+  PARSE_FACTOR_KEY: 0,
+  PARSE_FACTORS: 1,
+  PARSE_FACTORS_MULTI: 2,
+  FINISHED_PARSE_FACTORS_MULTI: 3
+};
+class Combinations {
+  constructor(factors) {
+    this.factors;
+  }
+
+  parse(line) {
+    var idx = 0;
+    let state = C_STATE.PARSE_FACTOR_KEY;
+    let str = '';
+    while (idx < line.length) {
+      let ch = line[idx];
+      if (ch == ' ') {
+        idx++;
+        continue;
+      }
+      switch (state) {
+        case C_STATE.PARSE_FACTOR_KEY:
+          do {
+            if (ch == ':') {
+              // TODO
+              console.log(str);
+              str = '';
+              state++;
+              break;
+            } else {
+              str += ch;
+            }
+          } while ((ch = line[++idx]));
+          break;
+        case C_STATE.PARSE_FACTORS:
+          if (ch == '[') {
+            state++;
+            break;
+          }
+          do {
+            if (ch == ',') {
+              //TODO
+              console.log(str);
+              str = '';
+              state = C_STATE.PARSE_FACTOR_KEY;
+              break;
+            } else {
+              str += ch;
+              if (idx == line.length - 1) {
+                //TODO
+                console.log(str);
+              }
+            }
+          } while ((ch = line[++idx]));
+          break;
+        case C_STATE.PARSE_FACTORS_MULTI:
+          do {
+            if (ch == ']') {
+              //TODO
+              console.log(str);
+              str = '';
+              state++;
+              break;
+            } else if (ch == ',') {
+              // TODO
+              console.log(str);
+              str = '';
+            } else {
+              str += ch;
+            }
+          } while ((ch = line[++idx]));
+          break;
+        case C_STATE.FINISHED_PARSE_FACTORS_MULTI:
+          if (ch == ',') {
+            state = C_STATE.PARSE_FACTOR_KEY;
+          }
+        default:
+          break;
+      }
+      idx++;
+    }
+  }
+
+  add(line) {
+    const matchSeparator = line.match(/^-+/);
+    if (matchSeparator) {
+      if (this.started) {
+        return this;
+      } else {
+        this.started = true;
+      }
+      return;
+    }
+    this.parse(line);
+  }
+
+  out() {}
+}
+
 class FactorAnalysis {
   constructor(filepath, options = {}) {
     var contents = fs.readFileSync(filepath);
     var factor = undefined;
+    var combinations = undefined;
     contents
       .toString()
       .split('\n')
       .forEach(function(line) {
         if (line == '[factor]') {
           factor = new Factors();
+        } else if (line == '[combination]') {
+          combinations = new Combinations(factor);
+          factor = undefined;
         } else {
           if (factor) {
             if (factor.add(line)) {
-              factor.out();
-              factor = undefined;
+              //factor.out();
+            }
+          }
+          if (combinations) {
+            if (combinations.add(line)) {
+              combinations.out();
             }
           }
         }

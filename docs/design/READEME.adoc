@@ -9,11 +9,11 @@
 ```
 [factor]
 ----
-* A: userId
+A: userId
   1. 正しい値
   2- 入力なし
   3- 100文字
-* B: password
+B: password
   1. 正しい値
   2- 入力なし
   3- 間違った値
