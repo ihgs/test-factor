@@ -1,4 +1,6 @@
 const { ParseException } = require('./exceptions');
+const _ = require('lodash');
+require('lodash.product');
 
 class CombinationScenario {
   constructor(index) {
@@ -12,7 +14,18 @@ class CombinationScenario {
 
   addItem(targetItem) {
     const f = this.factors[this.factors.length - 1];
-    f.target.push(targetItem);
+    const item = f.factor.getItem(targetItem);
+    f.target.push(item);
+  }
+
+  combinationList() {
+    const fKey = [];
+    const list = [];
+    this.factors.forEach(function(fac) {
+      fKey.push(fac.factor.key);
+      list.push(fac.target);
+    });
+    return { keys: fKey, list: _.product(...list) };
   }
 }
 
@@ -120,6 +133,31 @@ class Combinations {
       return;
     }
     this.parse(line);
+  }
+
+  outputTable() {
+    console.log('|===');
+    console.log('| No. |  | Expected | Date | OK | Evidense');
+
+    this.scenarios.forEach(function(sce, secIndex) {
+      const { keys, list } = sce.combinationList();
+      list.forEach(function(l, factIndex) {
+        console.log('');
+        console.log(`${secIndex + 1}-${factIndex + 1}`);
+        console.log('a|');
+        for (let i in keys) {
+          console.log(`* ${keys[i]}: ${l[i].no} ${l[i].label}`);
+        }
+        console.log('|');
+        console.log('|');
+        console.log('|');
+        console.log('|');
+
+        console.log('');
+      });
+    });
+
+    console.log('|===');
   }
 }
 

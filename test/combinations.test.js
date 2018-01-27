@@ -46,7 +46,10 @@ A:[2,3],B:1
       const sce = c.scenarios[index];
       expect(sce.factors.length).toBe(ed[0]);
       sce.factors.forEach(function(fac, index) {
-        expect(fac.target).toEqual(ed[1][fac.factor.key]);
+        const nos = fac.target.map(function(t) {
+          return t.no;
+        });
+        expect(nos).toEqual(ed[1][fac.factor.key]);
       });
     });
   });

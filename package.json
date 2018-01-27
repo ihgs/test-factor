@@ -5,7 +5,9 @@
   "bin": "bin/cli.js",
   "author": "ihgs <hgs.dev@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "lodash.product": "^18.1.16"
+  },
   "scripts": {
     "precommit": "lint-staged",
     "test": "jest"

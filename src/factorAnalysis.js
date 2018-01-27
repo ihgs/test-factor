@@ -28,6 +28,7 @@ class FactorAnalysis {
           }
         }
       });
+    combinations.outputTable();
   }
 }
 module.exports = FactorAnalysis;
