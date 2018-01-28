@@ -1,5 +1,5 @@
 {
-  "name": "factor-analysis",
+  "name": "test-factor",
   "version": "0.1.0",
   "description": "generate test items from factors",
   "bin": "bin/cli.js",
