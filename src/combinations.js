@@ -142,14 +142,15 @@ class Combinations {
   }
 
   outputTable() {
+    console.log('[cols="2,10,2,2,2,10"]');
     console.log('|===');
-    console.log('| No. |  | Expected | Date | OK | Evidense');
+    console.log('| No. |  | Expected | Date | OK | Memo');
 
     this.scenarios.forEach(function(sce, secIndex) {
       const { keys, list } = sce.combinationList();
       list.forEach(function(l, factIndex) {
         console.log('');
-        console.log(`${secIndex + 1}-${factIndex + 1}`);
+        console.log(`|${secIndex + 1}-${factIndex + 1}`);
         console.log('a|');
         for (let i in keys) {
           console.log(`* ${keys[i]}: ${l[i].no} ${l[i].label}`);
