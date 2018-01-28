@@ -21,6 +21,25 @@ class CombinationScenario {
     f.target.push(item);
   }
 
+  addItems(start, end) {
+    const f = this.factors[this.factors.length - 1];
+    console.log(end);
+    let ok = false;
+    f.factor.items.forEach(function(item, index) {
+      if (item.no == start) {
+        f.target.push(item);
+        ok = true;
+      } else if (item.no == end) {
+        f.target.push(item);
+        ok = false;
+      } else {
+        if (ok) {
+          f.target.push(item);
+        }
+      }
+    });
+  }
+
   combinationList() {
     const fKey = [];
     const list = [];
@@ -103,14 +122,33 @@ class Combinations {
               scenario.addItem(str);
               str = '';
               state++;
-              break;
             } else if (ch == ',') {
               scenario.addItem(str);
               str = '';
+            } else if (ch == '-') {
+              const start = str;
+              let end;
+              str = '';
+              while ((ch = line[++idx])) {
+                if (ch == ']') {
+                  state++;
+                  end = str;
+                  str = '';
+                  scenario.addItems(start, end);
+                  break;
+                } else if (ch == ',') {
+                  end = str;
+                  str = '';
+                  scenario.addItems(start, end);
+                  break;
+                } else {
+                  str += ch;
+                }
+              }
             } else {
               str += ch;
             }
-          } while ((ch = line[++idx]));
+          } while (C_STATE.PARSE_FACTORS_MULTI == state && (ch = line[++idx]));
           break;
         case C_STATE.FINISHED_PARSE_FACTORS_MULTI:
           if (ch == ',') {

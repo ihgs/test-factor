@@ -12,6 +12,8 @@ B: password
   1. 正しい値
   2- 入力なし
   3- 間違った値
+  4- とてもながい
+  5- 全角文字
 `;
   const f = new Factors();
   input.split('\n').forEach(function(line) {
@@ -27,13 +29,17 @@ describe('Combinations', () => {
 A:1,B:1
 A:1, B:[2,3]
 A:[2,3],B:1
+A:[1-3],B:1
+A:[1,2],B:[1-3,5]
 ---
 `;
 
     const expectData = [
       [2, { A: ['1'], B: ['1'] }],
       [2, { A: ['1'], B: ['2', '3'] }],
-      [2, { A: ['2', '3'], B: ['1'] }]
+      [2, { A: ['2', '3'], B: ['1'] }],
+      [2, { A: ['1', '2', '3'], B: ['1'] }],
+      [2, { A: ['1', '2'], B: ['1', '2', '3', '5'] }]
     ];
 
     const c = new Combinations(factorData());
@@ -41,7 +47,7 @@ A:[2,3],B:1
       c.add(line);
     });
 
-    expect(c.scenarios.length).toBe(3);
+    expect(c.scenarios.length).toBe(5);
     expectData.forEach((ed, index) => {
       const sce = c.scenarios[index];
       expect(sce.factors.length).toBe(ed[0]);
