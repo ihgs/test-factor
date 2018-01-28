@@ -55,17 +55,29 @@ A:[2,3],B:1
   });
 
   test('parse error line', () => {
-    const testFunc = function() {
-      const input = `
----
-A:[1,2]a,B:1
----`;
-      const c = new Combinations(factorData());
-      input.split('\n').forEach(function(line) {
+    const input = `A:[1,2]a,B:1
+A:[1,4],B:1
+A:[1,2],C:1`;
+    const c = new Combinations(factorData());
+    input.split('\n').forEach(function(line) {
+      expect(() => {
         c.add(line);
-      });
-    };
+      }).toThrowError(ParseException);
+    });
+  });
 
-    expect(testFunc).toThrowError(ParseException);
+  test('show output table', () => {
+    const input = `
+    ---
+    A:1,B:1
+    A:1, B:[2,3]
+    A:[2,3],B:1
+    ---
+    `;
+    const c = new Combinations(factorData());
+    input.split('\n').forEach(function(line) {
+      c.add(line);
+    });
+    c.outputTable();
   });
 });

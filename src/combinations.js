@@ -15,6 +15,9 @@ class CombinationScenario {
   addItem(targetItem) {
     const f = this.factors[this.factors.length - 1];
     const item = f.factor.getItem(targetItem);
+    if (item == undefined) {
+      throw new ParseException(`Not found item:${targetItem}`);
+    }
     f.target.push(item);
   }
 
@@ -63,6 +66,9 @@ class Combinations {
           do {
             if (ch == ':') {
               const factor = _factors.getFactor(str);
+              if (factor == undefined) {
+                throw new ParseException(`Not found factor:${str}`);
+              }
               scenario.addFactor(factor);
               str = '';
               state++;
@@ -110,7 +116,7 @@ class Combinations {
           if (ch == ',') {
             state = C_STATE.PARSE_FACTOR_KEY;
           } else {
-            throw new ParseException();
+            throw new ParseException(`Invalid charactor:${ch}`);
           }
         default:
           break;
