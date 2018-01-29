@@ -23,7 +23,6 @@ class CombinationScenario {
 
   addItems(start, end) {
     const f = this.factors[this.factors.length - 1];
-    console.log(end);
     let ok = false;
     f.factor.items.forEach(function(item, index) {
       if (item.no == start) {
