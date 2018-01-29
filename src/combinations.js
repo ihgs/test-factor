@@ -191,6 +191,9 @@ class Combinations {
         console.log('a|');
         for (let i in keys) {
           console.log(`* ${keys[i]}: ${l[i].no} ${l[i].label}`);
+          l[i].memo.forEach(m => {
+            console.log(`${m}`);
+          });
         }
         console.log('|');
         console.log('|');

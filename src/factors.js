@@ -3,6 +3,7 @@ class Item {
     this.no = no;
     this.normal = type == '.';
     this.label = label;
+    this.memo = [];
   }
 }
 
@@ -22,12 +23,16 @@ class Factor {
       return o.no == no;
     });
   }
+  addMemo(memo) {
+    this.items[this.items.length - 1].memo.push(memo);
+  }
 }
 
 class Factors {
   constructor() {
     this.factorlist = [];
     this.maxItemSize = 0;
+    this.factorIndent = 0;
   }
 
   add(line) {
@@ -44,11 +49,22 @@ class Factors {
     if (matchFactor) {
       this.factor = new Factor(matchFactor[1], matchFactor[2]);
       this.factorlist.push(this.factor);
+      this.factorIndent = 0;
       return;
     }
-    const matchItem = line.match(/^\s+(\d+)([.-])\s+(.*)$/);
+    if (this.factorIndent != 0) {
+      const matchIndent = line.match(/^(\s+).*$/);
+      if (matchIndent) {
+        if (matchIndent[1].length > this.factorIndent) {
+          this.factor.addMemo(line.slice(this.factorIndent));
+          return;
+        }
+      }
+    }
+    const matchItem = line.match(/^(\s+)(\d+)([.-])\s+(.*)$/);
     if (matchItem) {
-      this.factor.addItem(matchItem[1], matchItem[2], matchItem[3]);
+      this.factor.addItem(matchItem[2], matchItem[3], matchItem[4]);
+      this.factorIndent = matchItem[1].length;
       return;
     }
   }
