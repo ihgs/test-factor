@@ -24,19 +24,22 @@ class CombinationScenario {
   addItems(start, end) {
     const f = this.factors[this.factors.length - 1];
     let ok = false;
-    f.factor.items.forEach((item, index) => {
+    const find = f.factor.items.some((item, index) => {
       if (item.no == start) {
         f.target.push(item);
         ok = true;
-      } else if (item.no == end) {
+      } else if (ok && item.no == end) {
         f.target.push(item);
-        ok = false;
+        return true;
       } else {
         if (ok) {
           f.target.push(item);
         }
       }
     });
+    if (!find) {
+      throw new ParseException(`Not found item:${start} or ${end}`);
+    }
   }
 
   combinationList() {
