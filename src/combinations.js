@@ -24,7 +24,7 @@ class CombinationScenario {
   addItems(start, end) {
     const f = this.factors[this.factors.length - 1];
     let ok = false;
-    f.factor.items.forEach(function(item, index) {
+    f.factor.items.forEach((item, index) => {
       if (item.no == start) {
         f.target.push(item);
         ok = true;
@@ -42,7 +42,7 @@ class CombinationScenario {
   combinationList() {
     const fKey = [];
     const list = [];
-    this.factors.forEach(function(fac) {
+    this.factors.forEach(fac => {
       fKey.push(fac.factor.key);
       list.push(fac.target);
     });
@@ -183,9 +183,9 @@ class Combinations {
     console.log('|===');
     console.log('| No. |  | Expected | Date | OK | Memo');
 
-    this.scenarios.forEach(function(sce, secIndex) {
+    this.scenarios.forEach((sce, secIndex) => {
       const { keys, list } = sce.combinationList();
-      list.forEach(function(l, factIndex) {
+      list.forEach((l, factIndex) => {
         console.log('');
         console.log(`|${secIndex + 1}-${factIndex + 1}`);
         console.log('a|');

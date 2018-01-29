@@ -19,7 +19,7 @@ class Factor {
     this.items.push(new Item(no, type, label));
   }
   getItem(no) {
-    return this.items.find(function(o) {
+    return this.items.find(o => {
       return o.no == no;
     });
   }
@@ -70,7 +70,7 @@ class Factors {
   }
 
   getFactor(key) {
-    return this.factorlist.find(function(o) {
+    return this.factorlist.find(o => {
       return o.key == key;
     });
   }
