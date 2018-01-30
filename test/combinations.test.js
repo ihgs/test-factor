@@ -31,6 +31,7 @@ A:1, B:[2,3]
 A:[2,3],B:1
 A:[1-3],B:1
 A:[2-3],B:[1-3,5]
+A:*,B:1
 ---
 `;
 
@@ -39,7 +40,8 @@ A:[2-3],B:[1-3,5]
       [2, { A: ['1'], B: ['2', '3'] }],
       [2, { A: ['2', '3'], B: ['1'] }],
       [2, { A: ['1', '2', '3'], B: ['1'] }],
-      [2, { A: ['2', '3'], B: ['1', '2', '3', '5'] }]
+      [2, { A: ['2', '3'], B: ['1', '2', '3', '5'] }],
+      [2, { A: ['1', '2', '3'], B: ['1'] }]
     ];
 
     const c = new Combinations(factorData());
@@ -47,7 +49,7 @@ A:[2-3],B:[1-3,5]
       c.add(line);
     });
 
-    expect(c.scenarios.length).toBe(5);
+    expect(c.scenarios.length).toBe(6);
     expectData.forEach((ed, index) => {
       const sce = c.scenarios[index];
       expect(sce.factors.length).toBe(ed[0]);
@@ -65,7 +67,9 @@ A:[2-3],B:[1-3,5]
 A:[1,4],B:1
 A:[1,2],C:1
 A:[1-100]
-B:[0-3]`;
+B:[0-3]
+B:*1
+B:1*`;
     const c = new Combinations(factorData());
     input.split('\n').forEach(function(line) {
       expect(() => {

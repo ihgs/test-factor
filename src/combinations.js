@@ -21,6 +21,13 @@ class CombinationScenario {
     f.target.push(item);
   }
 
+  addAll() {
+    const f = this.factors[this.factors.length - 1];
+    f.factor.items.forEach(item => {
+      f.target.push(item);
+    });
+  }
+
   addItems(start, end) {
     const f = this.factors[this.factors.length - 1];
     let ok = false;
@@ -110,6 +117,18 @@ class Combinations {
               str = '';
               state = C_STATE.PARSE_FACTOR_KEY;
               break;
+            } else if (ch == '*') {
+              if (str != '') {
+                throw new ParseException(`Invalid charactor:${str}${ch}`);
+              }
+              scenario.addAll();
+              ch = line[++idx];
+              if (ch == ',' || ch == undefined) {
+                str = '';
+                state = C_STATE.PARSE_FACTOR_KEY;
+                break;
+              }
+              throw new ParseException(`Invalid charactor:${ch}`);
             } else {
               str += ch;
               if (idx == line.length - 1) {
