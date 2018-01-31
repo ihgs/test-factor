@@ -28,6 +28,26 @@ class CombinationScenario {
     });
   }
 
+  addFirstNormal() {
+    return this.addFirst(true);
+  }
+
+  addFirstAbnormal() {
+    return this.addFirst(false);
+  }
+
+  addFirst(type) {
+    const f = this.factors[this.factors.length - 1];
+    const find = f.factor.items.find(item => {
+      return item.normal == type;
+    });
+    if (!find) {
+      const typeStr = type ? 'normal' : 'abnormal';
+      throw new ParseException(`Not found ${typeStr} item:`);
+    }
+    f.target.push(find);
+  }
+
   addItems(start, end) {
     const f = this.factors[this.factors.length - 1];
     let ok = false;
@@ -122,6 +142,30 @@ class Combinations {
                 throw new ParseException(`Invalid charactor:${str}${ch}`);
               }
               scenario.addAll();
+              ch = line[++idx];
+              if (ch == ',' || ch == undefined) {
+                str = '';
+                state = C_STATE.PARSE_FACTOR_KEY;
+                break;
+              }
+              throw new ParseException(`Invalid charactor:${ch}`);
+            } else if (ch == '.') {
+              if (str != '') {
+                throw new ParseException(`Invalid charactor:${str}${ch}`);
+              }
+              scenario.addFirstNormal();
+              ch = line[++idx];
+              if (ch == ',' || ch == undefined) {
+                str = '';
+                state = C_STATE.PARSE_FACTOR_KEY;
+                break;
+              }
+              throw new ParseException(`Invalid charactor:${ch}`);
+            } else if (ch == '-') {
+              if (str != '') {
+                throw new ParseException(`Invalid charactor:${str}${ch}`);
+              }
+              scenario.addFirstAbnormal();
               ch = line[++idx];
               if (ch == ',' || ch == undefined) {
                 str = '';
