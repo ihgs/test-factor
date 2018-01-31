@@ -10,7 +10,7 @@ class FactorAnalysis {
     let factor;
     let combinations;
     try {
-      const lines = contents.toString().split('\n');
+      const lines = contents.toString().split(/\r?\n/);
       while (idx < lines.length) {
         let line = lines[idx];
         if (line.match(/^\[factor\]\s*$/)) {
