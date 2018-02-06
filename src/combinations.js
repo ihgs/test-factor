@@ -254,22 +254,41 @@ class Combinations {
     addLine('|===');
     addLine('| No. |  | Expected | Date | OK | Memo');
 
+    const keystore = {};
+    const duplicateCheck = (no, key) => {
+      const inkeyNo = keystore[key];
+      if (inkeyNo) {
+        return inkeyNo;
+      } else {
+        keystore[key] = no;
+        return undefined;
+      }
+    };
+
     this.scenarios.forEach((sce, secIndex) => {
       const { keys, list } = sce.combinationList();
       list.forEach((l, factIndex) => {
         addLine('');
-        addLine(`|${secIndex + 1}-${factIndex + 1}`);
+        const no = `${secIndex + 1}-${factIndex + 1}`;
+        addLine(`|${no}`);
         addLine('a|');
+        let key = '';
         for (let i in keys) {
           addLine(`* ${keys[i]}: ${l[i].no} ${l[i].label}`);
           l[i].memo.forEach(m => {
             addLine(`${m}`);
           });
+          key += `${keys[i]}:${l[i].no},`;
         }
-        addLine('|');
-        addLine('|');
-        addLine('|');
-        addLine('|');
+        const value = duplicateCheck(no, key);
+        const nd = value ? '-' : '';
+        addLine(`|${nd}`);
+        addLine(`|${nd}`);
+        addLine(`|${nd}`);
+        addLine('a|');
+        if (value) {
+          addLine(`Duplicated: ${value}`);
+        }
 
         addLine('');
       });
