@@ -245,32 +245,37 @@ class Combinations {
   }
 
   outputTable() {
-    console.log('[cols="2,10,2,2,2,10"]');
-    console.log('|===');
-    console.log('| No. |  | Expected | Date | OK | Memo');
+    const eol = require('os').EOL;
+    let output = '';
+    const addLine = str => {
+      output += str + eol;
+    };
+    addLine('[cols="2,10,2,2,2,10"]');
+    addLine('|===');
+    addLine('| No. |  | Expected | Date | OK | Memo');
 
     this.scenarios.forEach((sce, secIndex) => {
       const { keys, list } = sce.combinationList();
       list.forEach((l, factIndex) => {
-        console.log('');
-        console.log(`|${secIndex + 1}-${factIndex + 1}`);
-        console.log('a|');
+        addLine('');
+        addLine(`|${secIndex + 1}-${factIndex + 1}`);
+        addLine('a|');
         for (let i in keys) {
-          console.log(`* ${keys[i]}: ${l[i].no} ${l[i].label}`);
+          addLine(`* ${keys[i]}: ${l[i].no} ${l[i].label}`);
           l[i].memo.forEach(m => {
-            console.log(`${m}`);
+            addLine(`${m}`);
           });
         }
-        console.log('|');
-        console.log('|');
-        console.log('|');
-        console.log('|');
+        addLine('|');
+        addLine('|');
+        addLine('|');
+        addLine('|');
 
-        console.log('');
+        addLine('');
       });
     });
-
-    console.log('|===');
+    addLine('|===');
+    console.log(output);
   }
 }
 
