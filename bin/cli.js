@@ -6,7 +6,10 @@ const version = require('../package.json').version;
 
 cmd.version(version);
 
-cmd.command('parse [input]').action(bundle);
+cmd
+  .command('parse [input]')
+  .action(bundle)
+  .option('--dir <dir>', 'output directory');
 
 cmd.command('help [command]').action(function(command) {
   let subcmd = cmd.commands.find(c => c.name() === command) || cmd;
@@ -21,5 +24,5 @@ if (!args[2] || !cmd.commands.some(c => c.name() === args[2])) {
 cmd.parse(args);
 
 function bundle(main, command) {
-  fa = new FactorAnalysis(main);
+  fa = new FactorAnalysis(main, command);
 }

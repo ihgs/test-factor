@@ -2,6 +2,7 @@ const Factors = require('../src/factors');
 const Combinations = require('../src/combinations');
 
 const fs = require('fs');
+const path = require('path');
 
 class FactorAnalysis {
   constructor(filepath, options = {}) {
@@ -35,7 +36,17 @@ class FactorAnalysis {
       return;
     }
 
-    combinations.outputTable();
+    if (options.dir) {
+      if (!fs.existsSync(options.dir)) {
+        console.error(`${options.dir} does not exist.`);
+        process.exit(1);
+      }
+      const filename = path.basename(filepath);
+      const outputFile = path.join(options.dir, filename);
+      combinations.save(outputFile);
+    } else {
+      combinations.outputTable();
+    }
   }
 }
 module.exports = FactorAnalysis;

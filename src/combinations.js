@@ -1,5 +1,7 @@
 const { ParseException } = require('./exceptions');
 const _ = require('lodash');
+const fs = require('fs');
+
 require('lodash.product');
 
 class CombinationScenario {
@@ -244,7 +246,15 @@ class Combinations {
     this.parse(line);
   }
 
+  save(output_file) {
+    fs.writeFileSync(output_file, this.outputStr());
+  }
+
   outputTable() {
+    console.log(this.outputStr());
+  }
+
+  outputStr() {
     const eol = require('os').EOL;
     let output = '';
     const addLine = str => {
@@ -294,7 +304,7 @@ class Combinations {
       });
     });
     addLine('|===');
-    console.log(output);
+    return output;
   }
 }
 
