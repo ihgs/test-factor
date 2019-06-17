@@ -27,6 +27,6 @@
     "lint-staged": "^8.1.5",
     "prettier": "^1.9.1",
     "prettier-eslint": "^8.2.5",
-    "prettier-eslint-cli": "^4.4.2"
+    "prettier-eslint-cli": "^5.0.0"
   }
 }
